@@ -8,60 +8,50 @@ CREATE SCHEMA IF NOT EXISTS mydb DEFAULT CHARACTER SET utf8 ;
 USE mydb ;
 
 -- -----------------------------------------------------
--- Table `mydb`.`User`
+-- Table User
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`User` (
-  `user_id` INT NOT NULL AUTO_INCREMENT,
-  `user_name` VARCHAR(45) NOT NULL,
-  `password` VARCHAR(255) NOT NULL,
-  `is_acive` TINYINT NOT NULL DEFAULT 1,
-  PRIMARY KEY (`user_id`, `user_name`))
-ENGINE = InnoDB;
-
-CREATE UNIQUE INDEX `user_name_UNIQUE` ON `mydb`.`User` (`user_name` ASC) VISIBLE;
+CREATE TABLE User (
+user_id SERIAL PRIMARY KEY,
+user_name VARCHAR(45) NOT NULL UNIQUE,
+password VARCHAR(255) NOT NULL,
+is_acive BOOLEAN NOT NULL DEFAULT True
+);
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Account_type`
+-- Table Account_type
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`Account_type` (
-  `account_type_id` INT NOT NULL AUTO_INCREMENT,
-  `description` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`account_type_id`))
-ENGINE = InnoDB;
+CREATE TABLE IF NOT EXISTS Account_type (
+  account_type_id SERIAL PRIMARY KEY,
+  description VARCHAR(45) NOT NULL
+);
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Account`
+-- Table Account
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`Account` (
-  `account_id` INT NOT NULL AUTO_INCREMENT,
-  `user_id` INT NOT NULL,
-  `account_type_id` INT NOT NULL,
-  `amount` DOUBLE NOT NULL,
-  `debt` DOUBLE NOT NULL DEFAULT 0,
-  `is_active` TINYINT NOT NULL DEFAULT 1,
-  PRIMARY KEY (`account_id`),
-  CONSTRAINT `fk_Account_User`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `mydb`.`User` (`user_id`)
+CREATE TABLE IF NOT EXISTS Account (
+  account_id SERIAL PRIMARY KEY,
+  user_id INT NOT NULL,
+  account_type_id INT NOT NULL,
+  amount double precision NOT NULL,
+  debt double precision NOT NULL DEFAULT 0,
+  is_active BOOLEAN NOT NULL DEFAULT True,
+  CONSTRAINT fk_Account_User
+    FOREIGN KEY (user_id)
+    REFERENCES userssssss (user_id)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Account_Account_type1`
-    FOREIGN KEY (`account_type_id`)
-    REFERENCES `mydb`.`Account_type` (`account_type_id`)
+  CONSTRAINT fk_Account_Account_type1
+    FOREIGN KEY (account_type_id)
+    REFERENCES Account_type (account_type_id)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+    ON UPDATE NO ACTION);
 
-CREATE INDEX `fk_Account_User_idx` ON `mydb`.`Account` (`User_user_id` ASC) VISIBLE;
+CREATE INDEX fk_Account_User_idx ON Account (user_id);
 
-CREATE INDEX `fk_Account_Account_type1_idx` ON `mydb`.`Account` (`Account_type_account_type_id` ASC) VISIBLE;
+CREATE INDEX fk_Account_Account_type1_idx ON Account (account_type_id);
 
-INSERT INTO `mydb`.`Account_type` VALUES (1, 'debit')
-INSERT INTO `mydb`.`Account_type` VALUES (2, 'credit')
+INSERT INTO Account_type VALUES (1, 'debit');
+INSERT INTO Account_type VALUES (2, 'credit');
 
-
-SET SQL_MODE=@OLD_SQL_MODE;
-SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
-SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
