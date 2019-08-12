@@ -23,6 +23,6 @@ Installation Instructions:
 5. Add repository dir to PYTHONPATH environment variable. In this example the repo is at `/central_maestra/`
 
     `export PYTHONPATH=/clickbus/:$PYTHONPATH`
-    
-9. Run the API server.
+6. Create the database in models/model.sql
+7. Run the API server.
      `python /clickbus/api/server/api_server.py`
