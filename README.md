@@ -22,7 +22,7 @@ Installation Instructions:
     
 5. Add repository dir to PYTHONPATH environment variable. In this example the repo is at `/central_maestra/`
 
-    `export PYTHONPATH=/flask/:$PYTHONPATH`
+    `export PYTHONPATH=/clickbus/:$PYTHONPATH`
     
 9. Run the API server.
-     `python /flask/api_server.py`
+     `python /clickbus/api/server/api_server.py`
